@@ -6,8 +6,8 @@ global.botNumber = ""
 
 global.owner = [
   ["51927174369", "Carlos 👑", true],
-  ["17054102764", "Canada", true],
-  ["5363870693", "XxX", true]
+  ["15812903813", "Canada", true],
+  ["5493534458126", "XxX", true]
 ]
 
 global.botname = '𝚂𝚑𝚒𝚣𝚞𝚔𝚊'
