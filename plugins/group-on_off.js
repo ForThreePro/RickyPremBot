@@ -95,7 +95,7 @@ let handler = async (m, { conn, args, command, isOwner }) => {
     default:
       return conn.sendMessage(m.chat, {
         image: { url: pp },
-        caption: `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗢𝗥 』* 💚─╮
+        caption: `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
 │ ⚠️ *OPCION NO VALIDA*
 │
 ╰─────────────────💚
