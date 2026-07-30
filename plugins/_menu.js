@@ -22,7 +22,7 @@ sticker: '🎨 𝗦𝗧𝗜𝗖𝗞𝗘𝗥',
 
 let handler = async (m, { conn }) => {
 try {
-await conn.sendMessage(m.chat, { react: { text: '⚡', key: m.key } })
+await conn.sendMessage(m.chat, { react: { text: '🧪', key: m.key } })
 
 const fecha = moment.tz('America/Lima').format('dddd')
 const fecha2 = moment.tz('America/Lima').format('DD [de] MMMM [de] YYYY')
@@ -49,26 +49,26 @@ for (const plugin of Object.values(global.plugins || {})) {
 }
 
 const userName = m.pushName || 'Usuario'
-const IMG_MENU = 'https://files.evogb.win/4EIjxL.jpg'
+const IMG_MENU = 'https://files.evogb.win/60yIxv.jpg' // FOTO RICKY
 
-let menuTexto = `⚡ *𝗖𝗬𝗕𝗘𝗥 𝗕𝗢𝗧* 🔥 ୨
+let menuTexto = `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚─╮
+│ 🧪 *BOT:* v3.0 Ricky
+│ 📡 *STATUS:* Online • ${horas}h ${minutos}m ${segundos}s
+╰─────────────────💚
 
-⤷ ┇ *𝗦𝗬𝗦𝗧𝗘𝗠:* v3.0 Cyber ：✦ 。
-╰─ ◈ *𝗢𝗡𝗟𝗜𝗡𝗘* • ${horas}𝗵 ${minutos}𝗺 ${segundos}𝘀
+╭─「 👤 𝗨𝗦𝗨𝗔𝗥𝗜𝗢 」─💚─╮
+│ 😎 @${userName}
+│ 💬 "Wubba Lubba Dub Dub bro"
+╰─────────────────💚
 
-╭─「 👤 𝗨𝗦𝗨𝗔𝗥𝗜𝗢 」─╮
-│ 💀 @${userName}
-│ 💬 "𝗖𝗼𝗻𝗲𝗰𝘁𝗮𝗱𝗼. 𝗟𝗶𝘀𝘁𝗼 𝗽𝗮𝗿𝗮 𝗱𝗼𝗺𝗶𝗻𝗮𝗿"
-╰────────────────╯
-
-──⚡ *𝗘𝗦𝗧𝗔𝗗𝗜𝗦𝗧𝗜𝗖𝗔𝗦* ╏ 📊
-👥 *𝗨𝘀𝘂𝗮𝗿𝗶𝗼𝘀:* ${totalUsers} | 📜 *𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀:* ${pluginsCount}
-💾 *𝗥𝗔𝗠:* ${ram}𝗺𝗯 | 🌐 *𝗦𝗲𝗿𝘃𝗶𝗱𝗼𝗿:* ${totalram}𝗴𝗯
+──🧪 *𝗘𝗦𝗧𝗔𝗗𝗜𝗦𝗧𝗜𝗖𝗔𝗦* ╏ 📊
+👥 *USUARIOS:* ${totalUsers} | 📜 *COMANDOS:* ${pluginsCount}
+💾 *RAM:* ${ram}mb | 🌐 *SERVIDOR:* ${totalram}gb
 
 ──🔧 *𝗦𝗜𝗦𝗧𝗘𝗠𝗔* 🔧──
-📅 *𝗗𝗶𝗮:* ${fecha}
-📆 *𝗙𝗲𝗰𝗵𝗮:* ${fecha2}
-🕐 *𝗛𝗼𝗿𝗮:* ${hora} | 📡 *𝗣𝗶𝗻𝗴:* ${Math.round(performance.now())}𝗺𝘀
+📅 *DIA:* ${fecha}
+📆 *FECHA:* ${fecha2}
+🕐 *HORA:* ${hora} | 📡 *PING:* ${Math.round(performance.now())}ms
 
 `
 
@@ -77,10 +77,11 @@ for (const tag of Object.keys(CATEGORY_META)) {
   if (!set || set.size === 0) continue
   const cmds = [...set].sort()
 
-  let icono = '🔧'
+  let icono = '🧪'
   if(tag === 'config') icono = '⚙️'
   if(tag === 'owner') icono = '👑'
   if(tag === 'fun') icono = '😈'
+  if(tag === 'joda') icono = '😎'
   if(tag === 'ff') icono = '🔫'
   if(tag === 'buscadores') icono = '🔍'
   if(tag === 'descargas') icono = '📥'
@@ -91,20 +92,19 @@ for (const tag of Object.keys(CATEGORY_META)) {
   if(tag === 'info') icono = 'ℹ️'
   if(tag === 'sticker') icono = '🎨'
 
-  menuTexto += `\n╭─「 ${CATEGORY_META[tag]} 」─╮\n`
+  menuTexto += `\n╭─「 ${CATEGORY_META[tag]} 」─💚─╮\n`
   menuTexto += cmds.map(c => `│ ${icono}.${c}`).join('\n') + '\n'
-  menuTexto += `╰─────────────────╯\n`
+  menuTexto += `╰─────────────────💚\n`
 }
 
 menuTexto += `
-⚡━━━━━━━━━━━━━━━⚡
-🔥 *𝗕𝗢𝗧:* 𝗖𝗬𝗕𝗘𝗥 𝗕𝗢𝗧
-💀 *𝗖𝗥𝗘𝗔𝗗𝗢𝗥:* 𝗪𝗵𝗼𝗶𝘀 𝗬𝗮𝗹𝗹𝗶 𝗰𝗼 👑
-⚡ *𝗩𝗘𝗥𝗦𝗜𝗢𝗡:* 3.0 𝗖𝘆𝗯𝗲𝗿 𝗠𝗮𝘀𝗰𝘂𝗹𝗶𝗻𝗼
-🌐 *𝗪𝗘𝗕:* 𝗴𝗶𝘁𝗵𝘂𝗯.𝗰𝗼𝗺
-
-> "𝗖𝗼𝗻𝗲𝗰𝘁𝗮𝗱𝗼 𝗮𝗹 𝘀𝗶𝘀𝘁𝗲𝗺𝗮. 𝗗𝗼𝗺𝗶𝗻𝗮 𝗼 𝗺𝘂𝗲𝗿𝗲" ⚡
-⚡━━━━━━━━━━━━━━━⚡`
+╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚─╮
+│ 🧪 *BOT:* Ricky Prem v3.0
+│ 👑 *CREADOR:* Whois Yalli co
+│ 🌐 *WEB:* github.com
+│
+│ > "Con gran poder viene gran responsabilidad"
+╰─────────────────💚`
 
 await conn.sendMessage(m.chat, {
   image: { url: IMG_MENU },
@@ -113,12 +113,12 @@ await conn.sendMessage(m.chat, {
 }, { quoted: m })
 
 } catch (e) {
-await conn.sendMessage(m.chat, { text: `❌ *𝗦𝗬𝗦𝗧𝗘𝗠 𝗘𝗥𝗢𝗥:* ${e.message}` }, { quoted: m })
+await conn.sendMessage(m.chat, { text: `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗢𝗥 』* 💚─╮\n│ 😿 *SYSTEM ERROR:* ${e.message}\n╰─────────────────💚` }, { quoted: m })
 }
 }
 
 handler.help = ['menu']
 handler.tags = ['info']
-handler.command = ['menu', 'help', 'menucyber']
+handler.command = ['menu', 'help', 'menuricky']
 
 export default handler
