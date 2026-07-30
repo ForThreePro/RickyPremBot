@@ -30,7 +30,7 @@ handler.before = async function (m, { conn }) {
         }
     }
 
-    // 1. FOTO DEL USER > 2. FOTO DEL GRUPO > 3. DEFAULT
+    // 1. FOTO DEL USER > 2. FOTO DEL GRUPO > 3. DEFAULT RICKY
     let banner;
     try {
         banner = await conn.profilePictureUrl(userss, 'image')
@@ -38,43 +38,45 @@ handler.before = async function (m, { conn }) {
         try {
             banner = await conn.profilePictureUrl(m.chat, 'image')
         } catch {
-            banner = 'https://i.imgur.com/2wzZ3eB.png'
+            banner = 'https://files.evogb.win/60yIxv.jpg' // FOTO OFICIAL RICKY
         }
     }
 
-    // DISEÑO CYBER PROMOTE
+    // DISEÑO RICKY PROMOTE
     const admingp = `
-╔═══「 👑 𝐀𝐒𝐂𝐄𝐍𝐒𝐎 」═══╗
-║
-║ 𝗧𝗔𝗥𝗚𝗘𝗧 : ${userTag}
-║ 𝗦𝗧𝗔𝗧𝗨𝗦 : ✅ RANGO ASIGNADO
-║ 𝗕𝗬 : ${adminTag}
-║
-╠═══「 𝗣𝗘𝗥𝗠𝗜𝗦𝗢𝗦 」═══╣
-║ [✓] Expulsar / Promover
-║ [✓] Editar Info Grupo
-║ [✓] Cambiar Config
-║ [✓] Anuncios
-╚═══════════╝
+╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚─╮
+│
+│ 👑 *TARGET:* ${userTag}
+│ 🧪 *STATUS:* Rango Asignado ✅
+│ 🧬 *POR:* ${adminTag}
+│
+├─ *PERMISOS*
+│ [✓] Expulsar / Promover
+│ [✓] Editar Info Grupo
+│ [✓] Cambiar Config
+│ [✓] Anuncios
+│
+╰─────────────────💚
 
-> 𝙴𝚕 𝚙𝚘𝚍𝚎𝚛 𝚌𝚘𝚗𝚕𝚎𝚟𝚊 𝚛𝚎𝚜𝚙𝚘𝚗𝚜𝚊𝚋𝚒𝚕𝚒𝚍𝚊𝚍
+> *“Con gran poder viene gran responsabilidad bro”*
 `.trim()
 
-    // DISEÑO CYBER DEMOTE
+    // DISEÑO RICKY DEMOTE
     const noadmingp = `
-╔═══「 🔒 𝐃𝐄𝐒𝐂𝐄𝐍𝐒𝐎 」═══╗
-║
-║ 𝗧𝗔𝗥𝗚𝗘𝗧 : ${userTag}
-║ 𝗦𝗧𝗔𝗧𝗨𝗦 : ❌ RANGO REVOCADO
-║ 𝗕𝗬 : ${adminTag}
-║
-╠═══「 𝗔𝗖𝗘𝗦𝗢 𝗗𝗘𝗡𝗘𝗚𝗔𝗗𝗢 」═══╣
-║ [✗] Sin permisos de admin
-║ [✗] Comandos bloqueados
-║ [✗] Solo miembro
-╚═════════╝
+╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚─╮
+│
+│ 🔒 *TARGET:* ${userTag}
+│ 😿 *STATUS:* Rango Revocado ❌
+│ 🧬 *POR:* ${adminTag}
+│
+├─ *ACCESO DENEGADO*
+│ [✗] Sin permisos de admin
+│ [✗] Comandos bloqueados
+│ [✗] Solo miembro
+│
+╰─────────────────💚
 
-> 𝚂𝚒𝚗 𝚛𝚊𝚗𝚐𝚘, 𝚜𝚒𝚗 𝚙𝚘𝚍𝚎𝚛
+> *“Wubba Lubba Dub... tranqui bro, sigues siendo parte”*
 `.trim()
 
     // LIMPIAR SESSION SI KICKEAN BOT
@@ -95,7 +97,7 @@ handler.before = async function (m, { conn }) {
         await conn.sendMessage(m.chat, {
             image: { url: banner },
             caption: admingp,
-       ...context
+     ...context
         }, { quoted: null })
         return
     }
@@ -105,7 +107,7 @@ handler.before = async function (m, { conn }) {
         await conn.sendMessage(m.chat, {
             image: { url: banner },
             caption: noadmingp,
-       ...context
+     ...context
         }, { quoted: null })
         return
     }
