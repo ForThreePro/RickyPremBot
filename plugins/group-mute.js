@@ -1,5 +1,5 @@
 let handler = async (m, { conn, text, isAdmin, isOwner, command }) => {
-    if (!m.isGroup) return m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗢𝗥 』* 💚─╮
+    if (!m.isGroup) return m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
 │ 😿 *ACCESO*
 │
 │ *Este comando solo en grupos*
