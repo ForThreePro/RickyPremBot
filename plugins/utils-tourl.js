@@ -5,43 +5,130 @@ import { fileTypeFromBuffer } from "file-type"
 let handler = async (m, { conn }) => {
   let q = m.quoted ? m.quoted : m
   let mime = (q.msg || q).mimetype || ''
-  if (!mime) return conn.reply(m.chat, `╭─❒ *『 𝗖𝗬𝗕𝗘𝗥 𝗕𝗢𝗧 』* ❒
+  if (!mime) return conn.reply(m.chat, `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
 │ ⚠️ *ERROR DE SISTEMA*
 │
-│ 🤖 *Responde a un archivo válido*
-│ ⚡ *Formatos:* Imagen, Video, Audio, Doc
-╰─────────────────❒`, m)
+│ 🧪 *Responde a un archivo valido*
+│ *Formatos:* Imagen, Video, Audio, Doc
+╰─────────────────💚`, m)
 
   try {
-    await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
+    await conn.sendMessage(m.chat, { react: { text: '🧪', key: m.key } })
 
     let media = await q.download()
     let link = await myCloud(media)
 
     if (!link.success) throw new Error()
 
-    let txt = `╭─❒ *『 𝗖𝗬𝗕𝗘𝗥 𝗕𝗢𝗧 』* ❒
-│ ☁️ *ARCHIVO SUBIDO A LA NUBE*
-│
+    let txt = `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚─╮
+│ ☁️ *ARCHIVO SUBIDO AL PORTAL*
+╰─────────────────💚
+
+╭─「 𝗥𝗘𝗣𝗢𝗥𝗧𝗘 」─💚─╮
 │ 🔗 *Enlace:* ${link.url}
 │ 🆔 *ID:* ${link.id}
 │ 📊 *Tamaño:* ${formatBytes(media.length)}
 │ ⚡ *Servidor:* evogb.win
-│
-│ > *“Archivo almacenado en el servidor”*
-╰─────────────────❒`
+╰─────────────────💚
+
+> *"Archivo almacenado en el portal bro"*`
 
     await conn.sendFile(m.chat, media, 'file.' + link.url.split('.').pop(), txt, m)
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
   } catch (e) {
     console.error(e)
-    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } })
-    await conn.reply(m.chat, `╭─❒ *『 𝗖𝗬𝗕𝗘𝗥 𝗕𝗢𝗧 』* ❒
-│ ❌ *ERROR DE SUBIDA*
+    await conn.sendMessage(m.chat, { react: { text: '😿', key: m.key } })
+    await conn.reply(m.chat, `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
+│ 😿 *ERROR DE SUBIDA* ❌
+╰─────────────────💚
+
+╭─「 𝗗𝗘𝗧𝗔𝗟𝗟𝗘 」─💚─╮
+│ *No se pudo subir el archivo*
+│ *Intenta de nuevo en unos seg bro*
+╰─────────────────💚`, m)
+  }
+}
+
+handler.help = ['upp', 'tourl']
+handler.tags = ['tools']
+handler.command = ['upp', 'tourl']
+
+export default handler
+
+function formatBytes(bytes) {
+  if (bytes === 0) return '0 B'
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
+  const i = Math.floor(Math.log(bytes) / Math.log(1024))
+  return `${(bytes / 1024 ** i).toFixed(2)} ${sizes[i]}`
+}
+
+async function myCloud(content) {
+  const fileType = await fileTypeFromBuffer(content)
+  const ext = fileType ? fileType.ext : 'bin'
+  const mime = fileType ? fileType.mime : 'application/octet-stream'
+
+  const formData = new FormData()
+  const blob = new Blob([content], { type: mime })
+  const fileName = `${crypto.randomBytes(5).toString("hex")}.${ext}`
+
+  formData.append("file", blob, fileName)
+
+  const response = await fetch("https://evogb.win/api/upload", {
+    method: "POST",
+    body: formData
+  })
+
+  if (!response.ok) throw new Error()
+
+  return await response.json()
+}import crypto from "crypto"
+import { FormData, Blob } from "formdata-node"
+import { fileTypeFromBuffer } from "file-type"
+
+let handler = async (m, { conn }) => {
+  let q = m.quoted ? m.quoted : m
+  let mime = (q.msg || q).mimetype || ''
+  if (!mime) return conn.reply(m.chat, `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
+│ ⚠️ *ERROR DE SISTEMA*
 │
-│ ⚡ *No se pudo subir el archivo*
-│ 🤖 *Intenta de nuevo en unos seg*
-╰─────────────────❒`, m)
+│ 🧪 *Responde a un archivo valido*
+│ *Formatos:* Imagen, Video, Audio, Doc
+╰─────────────────💚`, m)
+
+  try {
+    await conn.sendMessage(m.chat, { react: { text: '🧪', key: m.key } })
+
+    let media = await q.download()
+    let link = await myCloud(media)
+
+    if (!link.success) throw new Error()
+
+    let txt = `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚─╮
+│ ☁️ *ARCHIVO SUBIDO AL PORTAL*
+╰─────────────────💚
+
+╭─「 𝗥𝗘𝗣𝗢𝗥𝗧𝗘 」─💚─╮
+│ 🔗 *Enlace:* ${link.url}
+│ 🆔 *ID:* ${link.id}
+│ 📊 *Tamaño:* ${formatBytes(media.length)}
+│ ⚡ *Servidor:* evogb.win
+╰─────────────────💚
+
+> *"Archivo almacenado en el portal bro"*`
+
+    await conn.sendFile(m.chat, media, 'file.' + link.url.split('.').pop(), txt, m)
+    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
+  } catch (e) {
+    console.error(e)
+    await conn.sendMessage(m.chat, { react: { text: '😿', key: m.key } })
+    await conn.reply(m.chat, `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
+│ 😿 *ERROR DE SUBIDA* ❌
+╰─────────────────💚
+
+╭─「 𝗗𝗘𝗧𝗔𝗟𝗟𝗘 」─💚─╮
+│ *No se pudo subir el archivo*
+│ *Intenta de nuevo en unos seg bro*
+╰─────────────────💚`, m)
   }
 }
 
