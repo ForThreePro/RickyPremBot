@@ -3,8 +3,8 @@ let handler = async (m, { conn, args, command, isOwner }) => {
   const chatData = global.db.data.chats[m.chat];
   const botSettings = global.db.data.settings[conn.user.jid];
 
-  const on = '✅';
-  const off = '❌';
+  const on = '🧪';
+  const off = '😿';
 
   // AGARRAR FOTO Y NOMBRE DEL GRUPO
   let pp;
@@ -12,32 +12,32 @@ let handler = async (m, { conn, args, command, isOwner }) => {
   try {
     pp = await conn.profilePictureUrl(m.chat, 'image');
   } catch {
-    pp = 'https://i.imgur.com/2wzZ3eB.png'; // default si no hay foto
+    pp = 'https://files.evogb.win/60yIxv.jpg'; // default RICKY
   }
 
   const configList = `
-╭─❒ 「 ⚙️ CONFIGURACION 」 ❒─╮
+╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗖𝗢𝗡𝗙𝗜𝗚 』* 💚─╮
 │
-│ ${chatData.welcome? on : off} Bienvenida
-│ ${chatData.antiLink? on : off} AntiLink
-│ ${chatData.economy? on : off} Economia
-│ ${chatData.gacha? on : off} Gacha
-│ ${chatData.adminonly? on : off} Modo Admin
-│ ${chatData.reaction? on : off} Reacciones
-│ ${chatData.nsfw? on : off} NSFW
-│ ${chatData.alerts? on : off} Alertas
-│ ${chatData.notprefix? on : off} Sin Prefijo
-│ ${botSettings?.jadibotmd? on : off} SubBots
+│ ${chatData.welcome? on : off} *Bienvenida*
+│ ${chatData.antiLink? on : off} *AntiLink*
+│ ${chatData.economy? on : off} *Economia*
+│ ${chatData.gacha? on : off} *Gacha*
+│ ${chatData.adminonly? on : off} *Modo Admin*
+│ ${chatData.reaction? on : off} *Reacciones*
+│ ${chatData.nsfw? on : off} *NSFW*
+│ ${chatData.alerts? on : off} *Alertas*
+│ ${chatData.notprefix? on : off} *Sin Prefijo*
+│ ${botSettings?.jadibotmd? on : off} *SubBots*
 │
-├─❒ 「 📝 USO 」 ❒─
+├─「 𝗨𝗦𝗢 」─💚─╮
 │.${command} welcome on/off
 │.${command} antilink on/off
-╰───────────❒`.trim();
+╰─────────────────💚`.trim();
 
   if (!setting) {
     return conn.sendMessage(m.chat, {
       image: { url: pp },
-      caption: `*${groupName}*\n${configList}`,
+      caption: `╭─💚 *『 ${groupName} 』* 💚─╮\n${configList}`,
       mentions: [m.sender]
     }, { quoted: m });
   }
@@ -46,12 +46,12 @@ let handler = async (m, { conn, args, command, isOwner }) => {
   const reply = (name) => conn.sendMessage(m.chat, {
     image: { url: pp },
     caption: `
-╭─❒ 「 ⚙️ ACTUALIZADO 」 ❒─╮
+╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗔𝗖𝗧𝗨𝗔𝗟𝗜𝗭𝗔𝗗𝗢 』* 💚─╮
 │
-│ 📌 Función: ${name}
-│ 📊 Estado: ${status? '✅ ACTIVADO' : '❌ DESACTIVADO'}
+│ 📌 *Funcion:* ${name}
+│ 📊 *Estado:* ${status? '🧪 ACTIVADO' : '😿 DESACTIVADO'}
 │
-╰───────────❒`.trim(),
+╰─────────────────💚`.trim(),
     mentions: [m.sender]
   }, { quoted: m });
 
@@ -84,14 +84,23 @@ let handler = async (m, { conn, args, command, isOwner }) => {
       chatData.notprefix = status; reply('Sin Prefijo'); break;
 
     case 'serbot': case 'jadibot': case 'subbots':
-      if (!isOwner) return m.reply(`╭─❒ 「 ⛔ ERROR 」 ❒─╮\n│\n│ Solo el Owner puede usar esto\n│\n╰───────────❒`);
+      if (!isOwner) return m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗦𝗘𝗚𝗨𝗥𝗜𝗗𝗔𝗗 』* 💚─╮
+│ ⛔ *ERROR*
+│
+│ *Solo el Owner puede usar esto bro*
+╰─────────────────💚`);
       if (botSettings) { botSettings.jadibotmd = status; reply('SubBots'); }
       break;
 
     default:
       return conn.sendMessage(m.chat, {
         image: { url: pp },
-        caption: `╭─❒ 「 ⚠️ ERROR 」 ❒─╮\n│\n│ Opción no válida\n│\n╰───────────❒\n\n${configList}`,
+        caption: `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗢𝗥 』* 💚─╮
+│ ⚠️ *OPCION NO VALIDA*
+│
+╰─────────────────💚
+
+${configList}`,
         mentions: [m.sender]
       }, { quoted: m });
   }
