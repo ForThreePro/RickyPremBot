@@ -5,7 +5,7 @@ let linkRegex = /https:\/\/chat\.whatsapp\.com\/([0-9A-Za-z]{20,24})/i;
 let handler = async (m, { conn, text, isOwner }) => {
   const botname = getBotConfig(conn, 'botname')
 
-    if (!text) return m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗢𝗥 』* 💚─╮
+    if (!text) return m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
 │ 😿 *INSTRUCCION*
 │
 │ *Debes enviar una invitacion para que*
@@ -14,7 +14,7 @@ let handler = async (m, { conn, text, isOwner }) => {
 
     let [_, code] = text.match(linkRegex) || [];
 
-    if (!code) return m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗢𝗥 』* 💚─╮
+    if (!code) return m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
 │ 😿 *VALIDACION*
 │
 │ *Enlace de invitacion no valido*
@@ -30,11 +30,11 @@ let handler = async (m, { conn, text, isOwner }) => {
 │ *Me he unido exitosamente al grupo*
 │ *Portal abierto bro*
 ╰─────────────────💚`))
-            .catch(err => m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗢𝗥 』* 💚─╮
+            .catch(err => m.reply(`╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗘𝗥𝗥𝗢𝗥 』* 💚─╮
 │ 😿 *ERROR CRITICO* ❌
 ╰─────────────────💚
 
-╭─「 𝗗𝗘𝗧𝗔𝗟𝗘 」─💚─╮
+╭─「 𝗗𝗘𝗧𝗔𝗟𝗟𝗘 」─💚─╮
 │ *Error al unirme al grupo*
 │ *Verifica el enlace bro*
 ╰─────────────────💚`));
@@ -43,7 +43,7 @@ let handler = async (m, { conn, text, isOwner }) => {
 │ 📨 *SOLICITUD DE INGRESO*
 ╰─────────────────💚
 
-╭─「 𝗗𝗘𝗧𝗔𝗟𝗘 」─💚─╮
+╭─「 𝗗𝗘𝗧𝗔𝗟𝗟𝗘 」─💚─╮
 │ *ENLACE:* ${text}
 │ *POR:* @${m.sender.split('@')[0]}
 ╰─────────────────💚`;
