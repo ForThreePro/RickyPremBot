@@ -1,114 +1,111 @@
 import { WAMessageStubType } from '@whiskeysockets/baileys';
+import fs from 'fs'
+import { exec } from 'child_process'
+import { promisify } from 'util'
+const execAsync = promisify(exec)
 
 export async function before(m, { conn, participants, groupMetadata }) {
     if (!m.messageStubType ||!m.isGroup) return true;
-
     const chat = global.db.data.chats[m.chat];
-    if (!chat.welcome) return true;
-
+    if (!chat ||!chat.welcome) return true;
     const target = m.messageStubParameters?.[0];
     if (!target) return true;
 
     const userData = global.db.data.users[target] || {};
     const targetName = userData.name || await conn.getName(target) || `@${target.split('@')[0]}`;
-
     const actor = m.participant || m.key.participant || m.messageStubParameters?.[1] || null;
 
     let memberCount = participants.length;
     if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) memberCount++;
     if ([WAMessageStubType.GROUP_PARTICIPANT_REMOVE, WAMessageStubType.GROUP_PARTICIPANT_LEAVE].includes(m.messageStubType)) memberCount--;
 
+    const EMOJIS = ['💼','📊','💰','📈','🏦','💳','🔒','📡','🖥️','⚙️','📁','🔰','🎯']
+    const e1 = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+    const e2 = EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+
     const actionText = {
-        [WAMessageStubType.GROUP_PARTICIPANT_ADD]:
-            actor? `Reclutado por @${actor.split('@')[0]}` : 'Ingreso al sistema',
-
-        [WAMessageStubType.GROUP_PARTICIPANT_REMOVE]:
-            actor? `Eliminado por @${actor.split('@')[0]}` : 'Expulsado del sistema',
-
-        [WAMessageStubType.GROUP_PARTICIPANT_LEAVE]:
-            'Abandono el sistema'
+        [WAMessageStubType.GROUP_PARTICIPANT_ADD]: actor? `*Reclutado por* @${actor.split('@')[0]}` : '*Ingreso al sistema*',
+        [WAMessageStubType.GROUP_PARTICIPANT_REMOVE]: actor? `*Eliminado por* @${actor.split('@')[0]}` : '*Expulsado del sistema*',
+        [WAMessageStubType.GROUP_PARTICIPANT_LEAVE]: '*Abandono el sistema*'
     };
 
     const format = (text) => {
         return text
-       .replace('@user', `@${target.split('@')[0]}`)
-       .replace('@name', targetName)
-       .replace('@group', groupMetadata.subject)
-       .replace('@desc', groupMetadata.desc?.toString() || 'Sin descripción')
-       .replace('%users', memberCount)
-       .replace('@action', actionText[m.messageStubType] || '')
-       .replace('@date', new Date().toLocaleString('es-PE'));
+      .replace(/@user/g, `@${target.split('@')[0]}`)
+      .replace(/@name/g, targetName)
+      .replace(/@group/g, groupMetadata.subject)
+      .replace(/@desc/g, groupMetadata.desc?.toString() || '*Sin descripcion*')
+      .replace(/%users/g, memberCount)
+      .replace(/@action/g, actionText[m.messageStubType] || '')
+      .replace(/@date/g, new Date().toLocaleString('es-PE'));
     };
 
-    // DETECTAR SI TIENE FOTO O NO
     let ppUrl;
-    try {
-        ppUrl = await conn.profilePictureUrl(target, 'image');
-    } catch {
-        // Si no tiene foto, usa tu banner RICKY
-        ppUrl = 'https://files.evogb.win/60yIxv.jpg'
-    }
+    try { ppUrl = await conn.profilePictureUrl(target, 'image'); }
+    catch { ppUrl = 'https://files.evogb.win/INtgbw.jpg' }
 
-    const welcome = format(`
-╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚─╮
-│ 🧪 *NUEVO OPERATIVO DETECTADO*
-╰─────────────────💚
+    const defaultWelcome = `╭━━━『 ${e1} RICKY PREM BOT ${e1} 』━━━╮
+│
+│ ${e2} *NUEVO OPERADOR DETECTADO* ${e2}
+│
+│ *ID*: @name
+│ *RED*: @group
+│ *ESTADO*: @action
+│
+│ ┌─「 ${e1} PANEL DE CONTROL 」─┐
+│ │ *📜 Descripcion*: @desc
+│ │ *👥 Operativos*: %users
+│ │ *⚠️ Protocolo*: Leer reglas o ban
+│ └──────────────────────────┘
+│
+│ > "Bienvenido a la red. No la cagues" ${e1}
+╰━━━━━━━━━━╯`;
 
-🆔 *NOMBRE:* @name
-👥 *GRUPO:* @group
+    const defaultBye = `╭━━━『 ${e1} RICKY PREM BOT ${e1} 』━━━╮
+│
+│ ${e2} *OPERADOR DADO DE BAJA* ${e2}
+│
+│ *ID*: @name
+│ *RED*: @group
+│
+│ *ESTADO*: @action
+│
+│ ┌─「 ${e1} REPORTE DE SISTEMA 」─┐
+│ │ *👥 Operativos Actuales*: %users
+│ │ *🕐 Baja*: @date
+│ └───────────────────────────┘
+│
+│ > "Un soldado menos. El sistema sigue" ${e1}
+╰━━━━━━━━━━╯`;
 
-📡 *ESTADO:* @action
-
-╭─「 𝗜𝗡𝗙𝗢 𝗗𝗘𝗟 𝗦𝗜𝗦𝗧𝗘𝗠𝗔 」─💚─╮
-│ 📜 *DESC:* @desc
-│ 👥 *MIEMBROS:* %users
-│ ⚠️ *ADVERTENCIA:* Lee reglas o ban
-╰─────────────────💚
-
-> *"Wubba Lubba Dub Dub... Bienvenido bro"*`
-   .trim());
-
-    const bye = format(`
-╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚─╮
-│ 😿 *OPERATIVO DADO DE BAJA*
-╰─────────────────💚
-
-🆔 *NOMBRE:* @name
-👥 *GRUPO:* @group
-
-📡 *ESTADO:* @action
-
-╭─「 𝗥𝗘𝗣𝗢𝗥𝗧𝗘 」─💚─╮
-│ 👥 *MIEMBROS ACTUALES:* %users
-│ 🕐 *SALIDA:* @date
-╰─────────────────💚
-
-> *"Un portal menos bro... el sistema sigue"*`
-   .trim());
-
+    const welcome = format(chat.welcomeText || defaultWelcome);
+    const bye = format(chat.byeText || defaultBye);
     const mentions = [target];
     if (actor) mentions.push(actor);
+    const context = { contextInfo: { mentionedJid: mentions, isForwarded: true } };
 
-    const context = {
-        contextInfo: {
-            mentionedJid: mentions,
-            isForwarded: true
+    // FUNCION ARREGLADA: MANDA MP3 MANUAL PARA QUE NO LO SILENCIE
+    const sendAudioWelcome = async (audioPath) => {
+        if (!fs.existsSync(audioPath)) return console.log('Audio no encontrado:', audioPath)
+        try {
+            const audioBuffer = fs.readFileSync(audioPath)
+            await conn.sendMessage(m.chat, {
+                audio: audioBuffer,
+                mimetype: 'audio/mpeg', // MP3
+                ptt: false, // MANUAL - CLAVE PARA QUE NO LO SILENCIE
+                fileName: 'Ricky_Prem_Bot.mp3'
+            })
+        } catch(e) {
+            console.log('Error al enviar audio:', e)
         }
-    };
-
-    if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
-        await conn.sendMessage(m.chat, {
-            image: { url: ppUrl },
-            caption: welcome,
-       ...context
-        });
     }
 
+    if (m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
+        await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: welcome,...context });
+        if (chat.welcomeAudio) await sendAudioWelcome(chat.welcomeAudio)
+    }
     if ([WAMessageStubType.GROUP_PARTICIPANT_LEAVE, WAMessageStubType.GROUP_PARTICIPANT_REMOVE].includes(m.messageStubType)) {
-        await conn.sendMessage(m.chat, {
-            image: { url: ppUrl },
-            caption: bye,
-       ...context
-        });
+        await conn.sendMessage(m.chat, { image: { url: ppUrl }, caption: bye,...context });
+        if (chat.byeAudio) await sendAudioWelcome(chat.byeAudio)
     }
 }
