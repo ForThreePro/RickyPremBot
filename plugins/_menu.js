@@ -4,7 +4,7 @@ import os from 'os'
 const CATEGORY_META = {
 config: '⚙️ 𝗖𝗢𝗡𝗙𝗜𝗚',
 main: '🔧 𝗠𝗔𝗜𝗡',
-tools: '🛠️ 𝗧𝗢𝗟𝗦',
+tools: '🛠️ 𝗧𝗢𝗢𝗟𝗦',
 owner: '👑 𝗢𝗪𝗡𝗘𝗥',
 sorteos: '🎯 𝗦𝗢𝗥𝗧𝗘𝗢𝗦',
 fun: '😈 𝗙𝗨𝗡',
@@ -19,6 +19,14 @@ ia: '🤖 𝗜𝗡𝗧𝗘𝗟𝗜𝗚𝗘𝗡𝗖𝗜𝗔 𝗔𝗥𝗧𝗜𝗙�
 info: 'ℹ️ 𝗜𝗡𝗙𝗢',
 sticker: '🎨 𝗦𝗧𝗜𝗖𝗞𝗘𝗥',
 }
+
+const ICONOS_CATEGORIA = {
+config: '⚙️', owner: '👑', fun: '😈', joda: '😎', ff: '🔫', buscadores: '🔍',
+descargas: '📥', grupo: '⚔️', group: '🛡️', gacha: '👥', ia: '🤖',
+info: 'ℹ️', sticker: '🎨', main: '🔧', tools: '🛠️', sorteos: '🎯'
+}
+
+const EMOJIS_RANDOM = ['🧪','💚','😎','👽','🌌','🔬','⚡','🌀']
 
 let handler = async (m, { conn }) => {
 try {
@@ -36,15 +44,16 @@ const totalram = (os.totalmem() / 1024 / 1024 / 1024).toFixed(2)
 const pluginsCount = Object.values(global.plugins || {}).filter(p =>!p?.disabled).length
 const totalUsers = Object.keys(global.db.data.users || {}).length
 
+// AHORA DETECTA TODAS LAS CATEGORIAS
 const byTag = {}
 for (const plugin of Object.values(global.plugins || {})) {
   if (plugin.disabled) continue
   const tags = Array.isArray(plugin.tags)? plugin.tags : (plugin.tags? [plugin.tags] : [])
   const helps = Array.isArray(plugin.help)? plugin.help : (plugin.help? [plugin.help] : [])
   for (const tag of tags) {
-    if (!CATEGORY_META[tag]) continue
-    if (!byTag[tag]) byTag[tag] = new Set()
-    for (const h of helps) if (typeof h === 'string' && h.trim()) byTag[tag].add(h.trim())
+    const t = tag.toLowerCase()
+    if (!byTag[t]) byTag[t] = new Set() // sin filtro
+    for (const h of helps) if (typeof h === 'string' && h.trim()) byTag[t].add(h.trim())
   }
 }
 
@@ -72,27 +81,23 @@ let menuTexto = `╭─💚 *『 𝗥𝗜𝗖𝗞𝗬 𝗣𝗥𝗘𝗠 』* 💚
 
 `
 
-for (const tag of Object.keys(CATEGORY_META)) {
+// Ordena: primero las de CATEGORY_META, luego las nuevas
+const tagsOrdenados = Object.keys(byTag).sort((a, b) => {
+  const aIn = CATEGORY_META[a]? 0 : 1
+  const bIn = CATEGORY_META[b]? 0 : 1
+  return aIn - bIn
+})
+
+for (const tag of tagsOrdenados) {
   const set = byTag[tag]
   if (!set || set.size === 0) continue
   const cmds = [...set].sort()
 
-  let icono = '🧪'
-  if(tag === 'config') icono = '⚙️'
-  if(tag === 'owner') icono = '👑'
-  if(tag === 'fun') icono = '😈'
-  if(tag === 'joda') icono = '😎'
-  if(tag === 'ff') icono = '🔫'
-  if(tag === 'buscadores') icono = '🔍'
-  if(tag === 'descargas') icono = '📥'
-  if(tag === 'grupo') icono = '⚔️'
-  if(tag === 'grupos') icono = '🛡️'
-  if(tag === 'gacha') icono = '👥'
-  if(tag === 'ia') icono = '🤖'
-  if(tag === 'info') icono = 'ℹ️'
-  if(tag === 'sticker') icono = '🎨'
+  // Si no existe en CATEGORY_META, lo crea en mayusculas bold
+  const nombreCat = CATEGORY_META[tag] || `✨ 𝗗𝗜𝗠𝗘𝗡𝗦𝗜𝗢𝗡 𝗗𝗘 𝗟𝗔 ${tag.toUpperCase()}`
+  const icono = ICONOS_CATEGORIA[tag] || EMOJIS_RANDOM[Math.floor(Math.random() * EMOJIS_RANDOM.length)]
 
-  menuTexto += `\n╭─「 ${CATEGORY_META[tag]} 」─💚─╮\n`
+  menuTexto += `\n╭─「 ${nombreCat} 」─💚─╮\n`
   menuTexto += cmds.map(c => `│ ${icono}.${c}`).join('\n') + '\n'
   menuTexto += `╰─────────────────💚\n`
 }
