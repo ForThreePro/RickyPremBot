@@ -42,7 +42,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
     let ppUrl;
     try { ppUrl = await conn.profilePictureUrl(target, 'image'); }
-    catch { ppUrl = 'https://files.evogb.win/INtgbw.jpg' }
+    catch { ppUrl = 'https://files.evogb.win/F0vrby.jpg' }
 
     const defaultWelcome = `╭━━━『 ${e1} RICKY PREM BOT ${e1} 』━━━╮
 │
