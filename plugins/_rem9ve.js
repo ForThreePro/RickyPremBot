@@ -137,7 +137,7 @@ async function ihancer(buffer, { method = 1, size = 'low' } = {}) {
 
 handler.help = ['removebg', 'rbg'];
 handler.tags = ['tools'];
-handler.command = ['removebg', 'rbg']; // <-- AQUI ESTAN LOS 2 COMANDOS
+handler.command = ['removebg', 'rbg']; // <-- AQUI ESTAN LOS 2 COMANDO
 handler.limit = true;
 
 export default handler;
